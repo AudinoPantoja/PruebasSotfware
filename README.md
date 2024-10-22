@@ -14,11 +14,11 @@ usuario Admin:<br>
   sistema incompleto, aun se trabaja en el 
   ``
 
-![Tienda en linea SQl](https://github.com/Ilesandres/img_Proyects/blob/main/tieda-homepage.png)
-![productos](https://github.com/Ilesandres/img_Proyects/blob/main/tieda-products.png)
+![Tienda en linea SQl](https://github.com/AudinoPantoja/img_Proyects.git/blob/main/tieda-homepage.png)
+![productos](https://github.com/AudinoPantoja/img_Proyects.git/blob/main/tieda-products.png)
 
 
-<a href="https://opposite-snapper-e2c.notion.site/Platvent-Store-c40ac8fd6c4e44069e7a1f825ba7c1a0" target="blank"><img align="center" src="https://github.com/Ilesandres/img_Proyects/blob/main/platvent_tareas_notion.png" alt="notion" height="100%" width="100%" /></a>
+<a href="https://opposite-snapper-e2c.notion.site/Platvent-Store-c40ac8fd6c4e44069e7a1f825ba7c1a0" target="blank"><img align="center" src="https://github.com/AudinoPantoja/img_Proyects.git/blob/main/platvent_tareas_notion.png" alt="notion" height="100%" width="100%" /></a>
 
 
 ## 📋 Tabla de contenidos
@@ -63,7 +63,7 @@ usuario Admin:<br>
 
 2. Puedes usar una base de datos local, e importar la base de datos que te dejo adjunta
 3. para uso movil se recomienda con el uso o orientacion horizontal
-      ![orientacion movil](https://github.com/Ilesandres/img_Proyects/blob/main/orientacionmovilHorizontal.jpg)
+      ![orientacion movil](https://github.com/AudinoPantoja/img_Proyects.git/blob/main/orientacionmovilHorizontal.jpg)
 
 # ✨Características
 * <b>Autenticacion de Usuarios :</b> Registro de inicio de sesion
