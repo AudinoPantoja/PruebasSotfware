@@ -1,6 +1,6 @@
 const express=require("express");
 const app=express();
-const mysql=require('mysql');
+const mysql=require('mysql2');
 const cors=require("cors");
 const http=require("http");
 const socketIo=require("socket.io");
@@ -86,14 +86,14 @@ app.get('/getProducts',(req,res)=>{
                 product.stock, 
                 product.price,
                 category.name AS categoryName, 
-                product.isActive,
+                product.is_Active,
                 category.id AS valueCategory
             FROM 
                 category
             INNER JOIN 
-                product_category ON category.id = product_category.categoryId
+                product_category ON category.id = product_category.category_Id
             INNER JOIN 
-                product ON product_category.productId = product.id
+                product ON product_category.product_Id = product.id
  `;
   
     if (searchData) {
@@ -162,11 +162,11 @@ app.put('/updateProduct',(req,res)=>{
     const precio=req.body.precio;
     const category=req.body.category;
     const fecha_Act=moment().tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss');
-    db.query(`UPDATE PRODUCT_CATEGORY SET  categoryId=? WHERE productId=?`,[category,idProduct],(err,result)=>{
+    db.query(`UPDATE PRODUCT_CATEGORY SET  category_Id=? WHERE product_Id=?`,[category,idProduct],(err,result)=>{
         if(err){
             console.log(err);
         }else{
-            db.query(`UPDATE PRODUCT SET name=?, stock=?, price=?, updatedAt=? WHERE id=? `,[nombre,stock,precio,fecha_Act,idProduct],(err2,result2)=>{
+            db.query(`UPDATE PRODUCT SET name=?, stock=?, price=?, updated_At=? WHERE id=? `,[nombre,stock,precio,fecha_Act,idProduct],(err2,result2)=>{
                 if(err2){
                     console.log(err2);
                 }else{
