@@ -58,12 +58,12 @@ app.post('/addProduct',(req,res)=>{
     const category=req.body.category;
     const isActivo=req.body.isActivo;
     
-    db.query('INSERT INTO product (name, stock, price, isActive) VALUES (?, ?, ?, ?)', [nombre, stock, precio, isActivo], (err, result) => {
+    db.query('INSERT INTO product (name, stock, price, is_Active) VALUES (?, ?, ?, ?)', [nombre, stock, precio, isActivo], (err, result) => {
         if (err) {
             console.log(err);
         } else {
             const productId = result.insertId;
-            db.query('INSERT INTO product_category (categoryId, productId) VALUES (?, ?)', [category, productId], (err2, result1) => {
+            db.query('INSERT INTO product_category (category_Id, product_Id) VALUES (?, ?)', [category, productId], (err2, result1) => {
                 if (err2) {
                     console.log(err2);
                 } else {
@@ -120,7 +120,7 @@ app.delete('/deleteProduct', (req, res) => {
     }
 
     // Eliminar primero de PRODUCT_CATEGORY
-    db.query(`DELETE FROM PRODUCT_CATEGORY WHERE productId = ?`, [idProduct], (err, result) => {
+    db.query(`DELETE FROM PRODUCT_CATEGORY WHERE product_Id = ?`, [idProduct], (err, result) => {
         if (err) {
             console.error('Error al eliminar de PRODUCT_CATEGORY:', err);
             return res.status(500).send('Error al eliminar la categoría del producto');
@@ -182,19 +182,19 @@ app.put('/updateProduct',(req,res)=>{
 app.get('/getClients', (req, res) => {
     const search = req.query.search || '';
 
-    let query = (`SELECT people.firstName, people.lastName, 
-                    people.address, document_type.id AS docValue, document_type.type, 
-                    people.documentNumber, people.phone, roles.id AS roleValue, roles.name,
-                    people.isActive as peopleIsactive,
-                    people.id AS valuePerson, people.createdAt, people.updatedAt 
-                FROM people
-                INNER JOIN document_type ON people.documentTypeId = document_type.id
-                INNER JOIN roles ON roles.id = 1
-                INNER JOIN customer ON customer.personId = people.id
+    let query = (`SELECT person.first_Name, person.last_Name, 
+                    person.address, document_type.id AS docValue, document_type.type, 
+                    person.document_Number, person.phone, role.id AS roleValue, role.name,
+                    person.is_Active as peopleIsactive,
+                    person.id AS valuePerson, person.created_At, person.updated_At 
+                FROM person
+                INNER JOIN document_type ON person.document_Type_Id = document_type.id
+                INNER JOIN role ON role.id = 1
+                INNER JOIN customer ON customer.person_Id = person.id
                 `);
 
     if (search) {
-        query += ` WHERE people.firstName LIKE ? OR people.lastName LIKE ? OR people.documentNumber LIKE ?`;
+        query += ` WHERE person.first_Name LIKE ? OR person.last_Name LIKE ? OR person.document_Number LIKE ?`;
     }
 
     const searchData = `%${search}%`;
@@ -226,7 +226,7 @@ app.put('/changeStateClient', (req, res) => {
 
 app.get('/getTiponit',(re,res)=>{
     
-    db.query(`SELECT *FROM document_type`,(err,result)=>{
+    db.query(`SELECT * FROM document_type`,(err,result)=>{
         if(err){
             console.log(err);
         }else{
@@ -257,13 +257,13 @@ app.post('/addCliente',(req,res)=>{
     const rol =1;
     const is_Active =true;
 
-    db.query(`INSERT INTO people (firstName, lastName, address, documentTypeId, documentNumber, phone, isActive) 
+    db.query(`INSERT INTO person (first_Name, last_Name, address, document_Type_Id, document_Number, phone, is_Active) 
     VALUES (?, ?, ?, ?, ?, ?, ?)`, [nombre, apellido, direccion, tipoNit, nitCliente, phone, is_Active], (err, result) => {
     if (err) {
         console.log(err);
     } else {
         const clienteId = result.insertId;
-        db.query(`INSERT INTO customer (personId) VALUES(?)`, [clienteId], (err1, result1) => {
+        db.query(`INSERT INTO customer (person_Id) VALUES(?)`, [clienteId], (err1, result1) => {
             if (err1) {
                 console.log(err1);
             } else {
