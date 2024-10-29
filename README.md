@@ -1,8 +1,8 @@
-#🛒📉 tienda en linea con SQL y PHP
+#🛒📉 tienda en linea
 ```
-codigo libre de una tienda online, las tecnologias usadas son react(axios), node(expres,sql) y sql, 
+codigo de una tienda online, las tecnologias usadas son react(axios), node(expres) y sql
 ```
-Este es un proyecto de tienda a escala media que aun se encuentra en desarrollo el, la version final sera marcada por medio de este mismo readme con una imagen o texto que lo indique, por lo pronto el sistema ya puede ser usado conjunto a la base de datos incluido en este mismo repositorio, para desarrollo de sistemas a la medida puedes buscar mis metodos de contacto en mi perfil ✋, la contraseña y usuario mostrado a continuacion aun no estan habilitadas
+Proyecto de una tienda a escala media en desarrollo. La versión final se actualizará en este README. Actualmente, el sistema es utilizable con la base de datos incluida en este repositorio.
 
 
 usuario Admin:<br>
@@ -51,11 +51,15 @@ usuario Admin:<br>
    ```bash
    git clone https://github.com/AudinoPantoja/PruebasSoftware.git
    $cd tienda-v2
-
+  despues de clonar el proyecto nos debemos ubicar en la carpeta client de la siguiente forma:
    cliente
       $cd client
+      una vez en client debemos instalar las dependencias:
+      $npm intall
+      luego de instalar las dependencias corremos el servidor de desarrollo:
       $npm start
 
+    en una nueva terminal nos ubicamos en la carpeta server y ejecutamos el servidor web:    
     server
       $cd server
       $node index.js
