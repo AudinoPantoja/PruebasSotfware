@@ -257,13 +257,13 @@ app.post('/addCliente',(req,res)=>{
     const rol =1;
     const is_Active =true;
 
-    db.query(`INSERT INTO people (firstName, lastName, address, documentTypeId, documentNumber, phone, isActive) 
+    db.query(`INSERT INTO person (first_Name, last_Name, address, document_Type_Id, document_Number, phone, is_Active) 
     VALUES (?, ?, ?, ?, ?, ?, ?)`, [nombre, apellido, direccion, tipoNit, nitCliente, phone, is_Active], (err, result) => {
     if (err) {
         console.log(err);
     } else {
         const clienteId = result.insertId;
-        db.query(`INSERT INTO customer (personId) VALUES(?)`, [clienteId], (err1, result1) => {
+        db.query(`INSERT INTO customer (person_Id) VALUES(?)`, [clienteId], (err1, result1) => {
             if (err1) {
                 console.log(err1);
             } else {
