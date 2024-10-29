@@ -314,7 +314,7 @@ const Productos = () => {
                       >
                        <option  value={0}>seleccione</option>
                       {categorias.map((categoria,index)=>(
-                        <option value={categoria.id} key={categoria.ID}> <b className='fs-6'>{categoria.name}</b>  ::: <b>{categoria.description}</b></option>
+                        <option value={categoria.ID} key={categoria.ID}> <b className='fs-6'>{categoria.NAME}</b>  ::: <b>{categoria.DESCRIPTION}</b></option>
                       ))}
                        
                       
