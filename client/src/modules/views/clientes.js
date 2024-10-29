@@ -288,9 +288,9 @@ const Clientes = () => {
             </div>
             <div className="modal-body">
               <div className="mb-3">
-                <label htmlFor="" className="form-label">Name</label>
+                <label htmlFor="" className="form-label">Nombre</label>
                 <input type="text"  value={nombreCliente} onChange={(e)=>{setNombreCliente(e.target.value)}} className="form-control" placeholder="nombre" aria-describedby="helpId" />
-                <small id="helpId" className="text-muted">Help text</small>
+                <small id="helpId" className="text-muted"></small>
               </div>
               <div className="mb-3">
                 <label htmlFor=""  className="form-label">Apellido</label>
@@ -305,15 +305,15 @@ const Clientes = () => {
                 <input type="number" value={telefonoCliente} onChange={(e)=>{setTelefonoCliente(e.target.value)}} className="form-control" placeholder="Telefono" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
-                <label htmlFor="" className="form-label">Nit</label>
+                <label htmlFor="" className="form-label">Numero de documento</label>
                 <input type="text" value={nitCliente} onChange={(e)=>{setNitCliente(e.target.value)}} className="form-control" placeholder="Nit" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
-                <label htmlFor="" className="form-label">Tipo de ID</label>
+                <label htmlFor="" className="form-label">Tipo de Documento</label>
                 <select value={tipoNitCliente} onChange={(e)=>{setTiponitCliente(e.target.value)}} className="form-select form-select-lg" name=""  id=""  >
-                  <option value={0} >Select one</option>
+                  <option value={0} >Seleccionar</option>
                   {tiposnit.map((nit,index)=>(
-                    <option value={nit.id} key={nit.id}>{nit.type}</option>
+                    <option value={nit.ID} key={nit.ID}>{nit.TYPE}</option>
                   ))}
                 </select>
               </div>
@@ -322,7 +322,7 @@ const Clientes = () => {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={()=>{setAgregarCliente(false)}}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={()=>{saveProduct()}}>{editando? 'guardar cambios':'guardar producto'}</button>
+              <button type="button" className="btn btn-primary" onClick={()=>{saveProduct()}}>{editando? 'Guardar Cambios':'Guardar Cliente'}</button>
             </div>
           </div>
         </div>
@@ -333,12 +333,12 @@ const Clientes = () => {
         <div className="modal-dialog modal-dialog-centered ">
           <div className="modal-content bg-secondary text-white">
             <div className="modal-header">
-              <h5 className="modal-title" id="AgregarTipoNitLabel">agregar tiponit</h5>
+              <h5 className="modal-title" id="AgregarTipoNitLabel">Agregar Tipo de Documento</h5>
               <button type="button" className="btn-close" onClick={()=>{setAgregarTipoNit(false)}}></button>
             </div>
             <div className="modal-body">
               <div className="mb-3">
-                <label htmlFor="" className="form-label">Name</label>
+                <label htmlFor="" className="form-label">Tipo Documento</label>
                 <input type="text" value={nombreAgregarTipoNit} onChange={(e)=>{setAgregarTipoNitNombre(e.target.value)}} id="" className="form-control" placeholder="nombre" aria-describedby="helpId" />
                 <small id="helpId" className="text-muted">Help text</small>
               </div>
