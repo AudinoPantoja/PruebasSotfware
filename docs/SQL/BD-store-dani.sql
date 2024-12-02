@@ -442,3 +442,195 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-10-29 19:08:57
+-- Crear y seleccionar la base de datos
+DROP DATABASE IF EXISTS store_dani;
+CREATE DATABASE store_dani;
+USE store_dani;
+
+-- Configuración de caracteres y colación
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
+-- Tabla document_type (debe crearse primero ya que es referenciada por person)
+CREATE TABLE `document_type` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `TYPE` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla person (debe crearse antes que customer)
+CREATE TABLE `person` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `FIRST_NAME` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `LAST_NAME` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ADDRESS` varchar(70) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DOCUMENT_TYPE_ID` int DEFAULT NULL,
+  `DOCUMENT_NUMBER` varchar(12) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `PHONE` varchar(12) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_AT` datetime DEFAULT NULL,
+  `IS_ACTIVE` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  KEY `DOCUMENT_TYPE_ID` (`DOCUMENT_TYPE_ID`),
+  CONSTRAINT `PERSON_IBFK_1` FOREIGN KEY (`DOCUMENT_TYPE_ID`) REFERENCES `document_type` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla category
+CREATE TABLE `category` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DESCRIPTION` tinytext COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla customer
+CREATE TABLE `customer` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `PERSON_ID` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `PERSON_ID` (`PERSON_ID`),
+  CONSTRAINT `CUSTOMER_IBFK_1` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla product
+CREATE TABLE `product` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `STOCK` int DEFAULT NULL,
+  `PRICE` float DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_AT` datetime DEFAULT NULL,
+  `IS_ACTIVE` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla product_category
+CREATE TABLE `product_category` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `CATEGORY_ID` int DEFAULT NULL,
+  `PRODUCT_ID` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `CATEGORY_ID` (`CATEGORY_ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  CONSTRAINT `PRODUCT_CATEGORY_IBFK_1` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `category` (`ID`),
+  CONSTRAINT `PRODUCT_CATEGORY_IBFK_2` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `product` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla role
+CREATE TABLE `role` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DESCRIPTION` tinytext COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla seller
+CREATE TABLE `seller` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `FIRST_NAME` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `LAST_NAME` varchar(35) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DOCUMENT_TYPE_ID` int DEFAULT NULL,
+  `DOCUMENT_NUMBER` varchar(12) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ROLE_ID` int DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_AT` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `DOCUMENT_TYPE_ID` (`DOCUMENT_TYPE_ID`),
+  KEY `ROLE_ID` (`ROLE_ID`),
+  CONSTRAINT `SELLER_IBFK_1` FOREIGN KEY (`DOCUMENT_TYPE_ID`) REFERENCES `document_type` (`ID`),
+  CONSTRAINT `SELLER_IBFK_2` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla supplier
+CREATE TABLE `supplier` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `TAX_NUMBER` varchar(12) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `PHONE` varchar(12) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_AT` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla product_supplier
+CREATE TABLE `product_supplier` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `PRODUCT_ID` int DEFAULT NULL,
+  `SUPPLIER_ID` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  KEY `SUPPLIER_ID` (`SUPPLIER_ID`),
+  CONSTRAINT `PRODUCT_SUPPLIER_IBFK_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `product` (`ID`),
+  CONSTRAINT `PRODUCT_SUPPLIER_IBFK_2` FOREIGN KEY (`SUPPLIER_ID`) REFERENCES `supplier` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla invoice_status
+CREATE TABLE `invoice_status` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DESCRIPTION` tinytext COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla invoice
+CREATE TABLE `invoice` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `CUSTOMER_ID` int DEFAULT NULL,
+  `STATUS_ID` int DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_AT` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `CUSTOMER_ID` (`CUSTOMER_ID`),
+  KEY `STATUS_ID` (`STATUS_ID`),
+  CONSTRAINT `INVOICE_IBFK_1` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `customer` (`ID`),
+  CONSTRAINT `INVOICE_IBFK_2` FOREIGN KEY (`STATUS_ID`) REFERENCES `invoice_status` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla invoice_product
+CREATE TABLE `invoice_product` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `PRODUCT_ID` int DEFAULT NULL,
+  `INVOICE_ID` int DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `PRODUCT_ID` (`PRODUCT_ID`),
+  KEY `INVOICE_ID` (`INVOICE_ID`),
+  CONSTRAINT `INVOICE_PRODUCT_IBFK_1` FOREIGN KEY (`PRODUCT_ID`) REFERENCES `product` (`ID`),
+  CONSTRAINT `INVOICE_PRODUCT_IBFK_2` FOREIGN KEY (`INVOICE_ID`) REFERENCES `invoice` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla order_status
+CREATE TABLE `order_status` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla order
+CREATE TABLE `order` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `INVOICE_ID` int DEFAULT NULL,
+  `STATUS_ID` int DEFAULT NULL,
+  `DETAILS` tinytext COLLATE utf8mb4_general_ci,
+  PRIMARY KEY (`ID`),
+  KEY `INVOICE_ID` (`INVOICE_ID`),
+  KEY `STATUS_ID` (`STATUS_ID`),
+  CONSTRAINT `ORDER_IBFK_1` FOREIGN KEY (`INVOICE_ID`) REFERENCES `invoice` (`ID`),
+  CONSTRAINT `ORDER_IBFK_2` FOREIGN KEY (`STATUS_ID`) REFERENCES `order_status` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Insertar datos iniciales en document_type
+INSERT INTO `document_type` (`TYPE`) VALUES
+('T.I'),
+('C.C'),
+('C.E');
+
+-- Insertar datos iniciales en category
+INSERT INTO `category` (`NAME`, `DESCRIPTION`) VALUES
+('granos', 'granos como arroz, frijol, arveja..'),
+('Bedidas enbotelladas', 'bebidas de todo tipo consumo humano'),
+('frutas y verduras', 'verduras y demas naturales'),
+('carnes', 'carnes de cerdo, res, pollo y demas'),
+('abarrotes', 'productos generales de uso diario'),
+('mascotas', 'alimentos para mascotas'),
+('mecato xunidad', 'mecato por paquetes unitarios'),
+('Aseo', 'Productos generales para el Aseo');
