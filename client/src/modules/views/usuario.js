@@ -1,111 +1,139 @@
-import React, { useState, useEffect } from 'react';
+import React,{useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Envios = () => {
-  const navigate = useNavigate();
-  const [back, setBack] = useState(false);
+const Usuario = () => {
 
-  useEffect(() => {
-    try {
-      if (back) {
-        navigate('/');
-      }
-    } catch (error) {
-      console.error("Error al navegar: ", error);
-    }
-  }, [back, navigate]);
-
-  // Ejemplos antes de conectar a BD
-  const [envios, setEnvios] = useState([
-    { id_factura: '0425-823', direccion: 100, precio: 252, enabled: true },
-    { id_factura: '055665', direccion: 50, precio: 252, enabled: true },
-    { id_factura: '21225', direccion: 75, precio: 252, enabled: true },
-    { id_factura: '121564', direccion: 20, precio: 252, enabled: true },
-    { id_factura: '12558', direccion: 60, precio: 252, enabled: true },
-    { id_factura: '12105', direccion: 45, precio: 252, enabled: true },
-  ]);
-
-  return (
-    <div className="product-list-container">
-      {/* Encabezado */}
-      <header className="header">
-        <a className="back-link" onClick={() => setBack(!back)}>Back</a>
-        <h1>Envios</h1>
-        <button className="add-button" data-bs-toggle="modal" data-bs-target="#ModalAgregar">Agregar</button>
-      </header>
-
-      {/* Subtítulo */}
-      <p className="subtitle_product">Modifica o actualiza la lista de envios y sus estados</p>
-
-      {/* Barra de búsqueda */}
-      <div className="search-bar">
-        <input type="text" placeholder="Search" className="search-input" />
-      </div>
-
-      {/* Tabla de productos */}
-      <table className="product-table">
-        <thead>
-          <tr>
-            <th>id_factura</th>
-            <th>direccion</th>
-            <th>Precio</th>
-            <th>Editar</th>
-            <th>Habilitado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {envios.map((envio, index) => (
-            <tr key={index}>
-              <td className="product-name">
-                <div className="product-icon">A</div>
-                {envio.id_factura}
-              </td>
-              <td>{envio.direccion}</td>
-              <td>{envio.precio}</td>
-              <td>
-                <button className="edit-button" data-bs-toggle="modal" data-bs-target="#ModalAgregar">Editar</button>
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={envio.enabled}
-                  onChange={() => {
-                    try {
-                      const newEnvios = [...envios];
-                      newEnvios[index].enabled = !newEnvios[index].enabled;
-                      setEnvios(newEnvios);
-                    } catch (error) {
-                      console.error("Error al cambiar el estado de habilitado: ", error);
-                    }
-                  }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Sección de los modales que estarán ocultos */}
-      <div className="p-3 mb-2 bg-primary text-white">.bg-primary</div>
-      <div className="modal fade" id="ModalAgregar" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="ModalAgregarLabel">Modal title</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    const [hora, setHora] = useState(20);
+    const [minuto, setMinuto] = useState(0);
+    const [amPm, setAmPm]=useState('Am');
+    const [formData, setFormData] = useState({
+      nombre: 'user',
+      usuario: 'username',
+      email: 'email@gmail.com',
+      descripcion: 'Value'
+    });
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+          const now = new Date();
+          let currentHour = now.getHours();
+          const currentMinute = now.getMinutes();
+          const isAm = currentHour < 12;
+    
+          setHora(currentHour % 12 || 12);  // Convierte de formato 24h a 12h
+          setMinuto(currentMinute);
+          setAmPm(isAm ? 'AM' : 'PM');  // Define AM o PM
+        }, 1000);  // Actualiza cada segundo
+    
+        return () => clearInterval(interval);  // Limpia el intervalo cuando el componente se desmonta
+      }, []);
+      
+      
+    
+    const navigate=useNavigate();
+    const [back, setBack]=useState(false);
+    
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      };
+      
+      useEffect(()=>{
+        if(back){
+            navigate('/');
+        }
+      },[back,navigate]);
+    
+    
+    return (
+        <div className="container_user">
+        <a className="back_link_user" onClick={()=>{setBack(!back);}}>Atrás</a>
+  
+        <div className="profile_section_user">
+          {/* Icono de usuario */}
+          <div className="user_icon_user">
+            <div className="icon_circle_user"></div>
+          </div>
+  
+          {/* Selector de hora */}
+          <div className="time_picker_user">
+            <label>Enter time</label>
+            <div className="time_picker_inputs_user">
+              <input
+              disabled
+                type="number"
+                value={hora}
+                onChange={(e) => setHora(e.target.value)}
+                className="hour_input_user"
+                min="1"
+                max="12"
+              />
+              :
+              <input
+                type="number" 
+                disabled
+                value={minuto}
+                onChange={(e) => setMinuto(e.target.value)}
+                className="minute_input_user"
+                min={0}
+                max={59}
+              />
+              <div className="am_pm_user">
+                <button className={`btn_am_user ${amPm === 'AM' ? 'active' : ''}`} onClick={() => setAmPm('AM')}>AM</button>
+                <button className={`btn_pm_user ${amPm === 'PM' ? 'active' : ''}`} onClick={() => setAmPm('PM')}>PM</button>
+              </div>
             </div>
-            <div className="modal-body">
-              ...
+            <div className="time_picker_actions_user">
+              <button className="cancel_btn_user">Cancel</button>
+              <button className="ok_btn_user">OK</button>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary">Save changes</button>
-            </div>
+          </div>
+  
+          {/* Formulario de perfil */}
+          <div className="profile_form_user">
+            <label>Nombre</label>
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleInputChange}
+              className="input_user"
+            />
+  
+            <label>Usuario</label>
+            <input
+              type="text"
+              name="usuario"
+              value={formData.usuario}
+              onChange={handleInputChange}
+              className="input_user"
+            />
+  
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="input_user"
+            />
+  
+            <label>Descripción</label>
+            <textarea
+              name="descripcion"
+              value={formData.descripcion}
+              onChange={handleInputChange}
+              className="textarea_user"
+            ></textarea>
+  
+            <button className="edit_btn_user">Editar</button>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
-export default Envios;
+export default Usuario;
