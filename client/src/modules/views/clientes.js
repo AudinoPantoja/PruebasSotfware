@@ -216,7 +216,7 @@ const Clientes = () => {
         <div className="product-list-container">
         {/* Encabezado */}
         <header className="header">
-          <a className="back-link" onClick={()=>{setBack(!back);}}>Back</a>
+          <a className="back-link" onClick={()=>{setBack(!back);}}>Atras</a>
           <h1>Clientes</h1>
           <button className="add-button" onClick={()=>{setAgregarCliente(true)}}>Agregar</button>
         </header>
@@ -226,18 +226,18 @@ const Clientes = () => {
   
         {/* Barra de búsqueda */}
         <div className="search-bar">
-          <input type="search" value={searchClient} onChange={(e)=>{setSearchClient(e.target.value)}} placeholder="Search id name last name" className="search-input" />
+          <input type="search" value={searchClient} onChange={(e)=>{setSearchClient(e.target.value)}} placeholder="Buscar por Id, Nombre o Apellido" className="search-input" />
         </div>
-  
+        {console.log(clientesCargados)}
         {/* Tabla de clientes */}
         <table className="product-table">
           <thead>
             <tr>
-              <th>NOMBRE COMPLETO </th>
-              <th>TIPO ID</th>
-              <th>Nit</th>
-              <th>PHONE</th>
-              <th>direccion</th>
+              <th>Nombre Completo </th>
+              <th>Tipo Documento</th>
+              <th>Numero Documento</th>
+              <th>Telefono</th>
+              <th>Direccion</th>
               <th>Editar</th>
               <th>Habilitado</th>
             </tr>
@@ -247,10 +247,10 @@ const Clientes = () => {
               <tr key={index}>
                 <td className="product-name">
                   <div className="product-icon">A</div>
-                  {cliente.firstName} {cliente.lastName}
+                  {cliente.FIRST_NAME} {cliente.last_Name}
                 </td>
                 <td>{cliente.type}</td>
-                <td>{cliente.documentNumber}  </td>
+                <td>{cliente.document_Number}  </td>
                 <td>{cliente.phone}  </td>
                 <td>{cliente.address}</td>
                 <td>
@@ -283,13 +283,13 @@ const Clientes = () => {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="ModalAgregarLabel">{editando? 'editando cliente':' agregar cliente'}</h5>
+              <h5 className="modal-title" id="ModalAgregarLabel">{editando? 'Editando Cliente':' Agregar Cliente'}</h5>
               <button type="button" className="btn-close" onClick={()=>{setAgregarCliente(false); setEditando(false);}}></button>
             </div>
             <div className="modal-body">
               <div className="mb-3">
                 <label htmlFor="" className="form-label">Nombre</label>
-                <input type="text"  value={nombreCliente} onChange={(e)=>{setNombreCliente(e.target.value)}} className="form-control" placeholder="nombre" aria-describedby="helpId" />
+                <input type="text"  value={nombreCliente} onChange={(e)=>{setNombreCliente(e.target.value)}} className="form-control" placeholder="Nombre" aria-describedby="helpId" />
                 <small id="helpId" className="text-muted"></small>
               </div>
               <div className="mb-3">
@@ -297,16 +297,16 @@ const Clientes = () => {
                 <input type="text" value={apellidoCliente} onChange={(e)=>{setApellidoCliente(e.target.value)}} className="form-control" placeholder="Apellido" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
-                <label htmlFor="" className="form-label">direccion</label>
-                <input type="text" value={direccionCliente} onChange={(e)=>{setDireccionCliente(e.target.value)}} className="form-control" placeholder="direccion" aria-describedby="helpId" />
+                <label htmlFor="" className="form-label">Direccion</label>
+                <input type="text" value={direccionCliente} onChange={(e)=>{setDireccionCliente(e.target.value)}} className="form-control" placeholder="Direccion" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
-                <label htmlFor="" className="form-label">telefono</label>
+                <label htmlFor="" className="form-label">Telefono</label>
                 <input type="number" value={telefonoCliente} onChange={(e)=>{setTelefonoCliente(e.target.value)}} className="form-control" placeholder="Telefono" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
                 <label htmlFor="" className="form-label">Numero de documento</label>
-                <input type="text" value={nitCliente} onChange={(e)=>{setNitCliente(e.target.value)}} className="form-control" placeholder="Nit" aria-describedby="helpId" />
+                <input type="text" value={nitCliente} onChange={(e)=>{setNitCliente(e.target.value)}} className="form-control" placeholder="Numero Documento" aria-describedby="helpId" />
               </div>
               <div className="mb-3">
                 <label htmlFor="" className="form-label">Tipo de Documento</label>
@@ -321,7 +321,7 @@ const Clientes = () => {
 
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={()=>{setAgregarCliente(false)}}>Close</button>
+              <button type="button" className="btn btn-secondary" onClick={()=>{setAgregarCliente(false)}}>Cerrar</button>
               <button type="button" className="btn btn-primary" onClick={()=>{saveProduct()}}>{editando? 'Guardar Cambios':'Guardar Cliente'}</button>
             </div>
           </div>
@@ -344,8 +344,8 @@ const Clientes = () => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={()=>{setAgregarTipoNit(false)}}>Close</button>
-              <button type="button" onClick={()=>{addTipoNit()}} className="btn btn-primary">Save changes</button>
+              <button type="button" className="btn btn-secondary" onClick={()=>{setAgregarTipoNit(false)}}>Cerrar</button>
+              <button type="button" onClick={()=>{addTipoNit()}} className="btn btn-primary">Guardar Cambios</button>
             </div>
           </div>
         </div>
