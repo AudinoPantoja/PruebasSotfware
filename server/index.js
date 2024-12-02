@@ -224,7 +224,7 @@ app.put('/changeStateClient', (req, res) => {
 });
 
 
-app.get('/getTiponit',(re,res)=>{
+app.get('/getTiponit',(req,res)=>{
     
     db.query(`SELECT * FROM document_type`,(err,result)=>{
         if(err){
